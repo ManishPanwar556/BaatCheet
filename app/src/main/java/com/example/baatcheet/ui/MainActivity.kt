@@ -1,4 +1,4 @@
-package com.example.baatcheet
+package com.example.baatcheet.ui
 
 import android.content.Intent
 import android.graphics.Color
@@ -7,13 +7,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.viewpager2.widget.ViewPager2
+import com.example.baatcheet.adapter.FragmentsAdapter
+import com.example.baatcheet.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     companion object {
         val auth = FirebaseAuth.getInstance()
+        val cloudFireStore=FirebaseFirestore.getInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +52,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SignUpActivity::class.java))
                 finish()
             }
+            R.id.profile->{
+                startActivity(Intent(this,ProfileActivity::class.java))
+            }
         }
         return true
     }
+
+
 }
