@@ -43,7 +43,7 @@ class SignUpActivity : AppCompatActivity() {
                     val map = HashMap<String, Any>()
                     val uid = mAuth.uid
                     val name = nameEditText.text.toString()
-                    map.put("name", "$name")
+                    map.put("name",name)
                     fireStore.collection("users").document("$uid").set(map).addOnSuccessListener{
                             val intent =
                                 Intent(this@SignUpActivity, MainActivity::class.java)
