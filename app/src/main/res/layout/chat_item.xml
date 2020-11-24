@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:outlineSpotShadowColor="@android:color/white"
-        app:cardBackgroundColor="@android:color/white"
+        app:cardBackgroundColor="#ECE909"
         android:outlineAmbientShadowColor="@android:color/white"
+        android:outlineSpotShadowColor="@android:color/white"
         android:layout_alignParentLeft="true">
         <TextView
             android:padding="8dp"

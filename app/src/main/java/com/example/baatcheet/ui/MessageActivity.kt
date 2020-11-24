@@ -39,7 +39,7 @@ class MessageActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         val message = findViewById<EditText>(R.id.messageEditText)
         val sendBtn = findViewById<FloatingActionButton>(R.id.sendBtn)
-        val rev = findViewById<RecyclerView>(R.id.messageRecyclerView)
+        val rev = findViewById<RecyclerView>(R.id.rev)
         val id = intent.extras?.get("id").toString()
         viewModel = MessageViewModel(application, id)
         val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -53,7 +53,7 @@ class MessageActivity : AppCompatActivity() {
         db.collection("users").document("$id").addSnapshotListener { value, error ->
             textView?.text = value?.get("name").toString()
         }
-        updateRoom(id,uid!!,rev)
+        updateRoom(id, uid!!, rev)
         sendBtn.setOnClickListener {
             if (!message.text.isEmpty()) {
                 val newMesssage = message.text.toString()
@@ -117,6 +117,7 @@ class MessageActivity : AppCompatActivity() {
                     viewModel.insertMessage(messageEntity)
                     count++
                 }
+
             }
             if (fromList != null && fromTimeStamp != null) {
                 var count = 0
@@ -127,19 +128,20 @@ class MessageActivity : AppCompatActivity() {
                 }
 
             }
-            updateLiveData(rev)
+
+   updateLiveData(rev)
         }
+
 
     }
 
-    private fun updateLiveData(rev: RecyclerView) {
-        val adapter = MessageAdapter()
+    private fun updateLiveData(rev: RecyclerView){
+        val adapter=MessageAdapter()
         rev.adapter=adapter
-
         viewModel.properties.observe(this, Observer {
-            Log.e("Livedata", "$it")
             adapter.submitList(it)
-            rev.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+            rev.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
             rev.scrollToPosition(adapter.itemCount-1)
         })
     }
