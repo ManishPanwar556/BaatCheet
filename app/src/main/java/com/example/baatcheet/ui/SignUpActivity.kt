@@ -61,11 +61,12 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Fill The Empty Field", Toast.LENGTH_SHORT).show()
             }
 
-            signIn.setOnClickListener {
-                val intent = Intent(this, SignInActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+
+        }
+        signIn.setOnClickListener {
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

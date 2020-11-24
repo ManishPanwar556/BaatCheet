@@ -5,12 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baatcheet.R
 import com.example.baatcheet.clickInterface.ClickInterface
-import com.example.baatcheet.room.UserEntity
+import com.example.baatcheet.models.UserEntity
 
-class MyAdapter(val list:List<UserEntity>,val clickInterface: ClickInterface):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(var list:ArrayList<UserEntity>,val clickInterface: ClickInterface):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     inner class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
         init {
             view.findViewById<LinearLayout>(R.id.linearLayout).setOnClickListener {
@@ -20,7 +22,6 @@ class MyAdapter(val list:List<UserEntity>,val clickInterface: ClickInterface):Re
             }
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view=LayoutInflater.from(parent.context).inflate(R.layout.user_item_row,parent,false)
         return MyViewHolder(view)

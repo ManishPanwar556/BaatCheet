@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <androidx.cardview.widget.CardView
+        android:layout_marginLeft="20dp"
         android:id="@+id/otherCardView"
         app:cardElevation="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:outlineSpotShadowColor="@android:color/white"
+        app:cardBackgroundColor="@android:color/white"
+        android:outlineAmbientShadowColor="@android:color/white"
         android:layout_alignParentLeft="true">
         <TextView
+            android:padding="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:id="@+id/otherUserMessage"/>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@android:color/holo_green_dark"
+        android:outlineAmbientShadowColor="@android:color/white"
         android:id="@+id/ourCardView"
+        android:layout_marginRight="10dp"
+        android:outlineSpotShadowColor="@android:color/white"
         app:cardElevation="20dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentRight="true">
         <TextView
+            android:padding="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
             android:id="@+id/ourUserMessage"/>
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>
