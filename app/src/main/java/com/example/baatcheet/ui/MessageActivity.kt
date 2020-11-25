@@ -31,7 +31,7 @@ class MessageActivity : AppCompatActivity() {
     companion object {
         val db = FirebaseFirestore.getInstance()
     }
-
+    lateinit var id: String
     lateinit var viewModel: MessageViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class MessageActivity : AppCompatActivity() {
         val message = findViewById<EditText>(R.id.messageEditText)
         val sendBtn = findViewById<FloatingActionButton>(R.id.sendBtn)
         val rev = findViewById<RecyclerView>(R.id.rev)
-        val id = intent.extras?.get("id").toString()
+        id = intent.extras?.get("id").toString()
         viewModel = MessageViewModel(application, id)
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         actionBar?.apply {
@@ -63,7 +63,12 @@ class MessageActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        val uid=FirebaseAuth.getInstance().currentUser?.uid
+        val rev = findViewById<RecyclerView>(R.id.rev)
+        updateRoom(id,uid!!,rev)
+    }
     private fun saveMessageToDataBase(message: String, id: String, uid: String, rev: RecyclerView) {
         val toDocsRef = db.collection("users").document("$uid")
         val fromDocsRef = db.collection("users").document("$id")
