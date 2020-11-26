@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -23,6 +25,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.mlkit.nl.smartreply.SmartReply
+import com.google.mlkit.nl.smartreply.SmartReplySuggestionResult
+import com.google.mlkit.nl.smartreply.TextMessage
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.time.seconds
@@ -30,6 +35,7 @@ import kotlin.time.seconds
 class MessageActivity : AppCompatActivity() {
     companion object {
         val db = FirebaseFirestore.getInstance()
+        var conversation=ArrayList<TextMessage>()
     }
     lateinit var id: String
     lateinit var viewModel: MessageViewModel
@@ -145,11 +151,50 @@ class MessageActivity : AppCompatActivity() {
         rev.adapter=adapter
         viewModel.properties.observe(this, Observer {
             adapter.submitList(it)
-
+            if(it.isNotEmpty() &&it[it.size-1].senderId!=FirebaseAuth.getInstance().currentUser?.uid){
+                val messageEntity=it[it.size-1]
+               geneRateSmartReply(messageEntity.message,messageEntity.timeStamp,messageEntity.senderId)
+            }
+            else{
+                makeChipGroupInVisible()
+            }
             rev.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
             rev.scrollToPosition(adapter.itemCount-1)
         })
     }
+    private fun makeChipGroupVisible() {
+        val layout=findViewById<LinearLayout>(R.id.chipLayout)
+        layout.visibility= View.VISIBLE
+    }
+    private fun makeChipGroupInVisible() {
+        val layout=findViewById<LinearLayout>(R.id.chipLayout)
+        layout.visibility= View.INVISIBLE
+    }
+    private fun geneRateSmartReply(
+        message: String,
+        timeStamp: Long,
+        senderId: String,
+
+    ) {
+        conversation.clear()
+        conversation.add(TextMessage.createForRemoteUser(message, timeStamp, senderId))
+        val smartReplyGenerator = SmartReply.getClient()
+        smartReplyGenerator.suggestReplies(conversation).addOnSuccessListener {
+            if (it.status == SmartReplySuggestionResult.STATUS_NOT_SUPPORTED_LANGUAGE) {
+                Log.e("Error","Language Error")
+            } else if (it.status == SmartReplySuggestionResult.STATUS_SUCCESS) {
+                val suggestions = it.suggestions
+                val chipOne =findViewById<com.google.android.material.chip.Chip>(R.id.chip1)
+                val chipTwo = findViewById<com.google.android.material.chip.Chip>(R.id.chip1)
+                val chipThree = findViewById<com.google.android.material.chip.Chip>(R.id.chip3)
+                chipOne.text=suggestions[0].text
+                chipTwo.text=suggestions[1].text
+                chipThree.text=suggestions[2].text
+                makeChipGroupVisible()
+            }
+        }
+    }
+
 
 
 }
