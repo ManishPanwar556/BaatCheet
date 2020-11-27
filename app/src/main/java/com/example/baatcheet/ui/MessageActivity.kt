@@ -69,12 +69,8 @@ class MessageActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val uid=FirebaseAuth.getInstance().currentUser?.uid
-        val rev = findViewById<RecyclerView>(R.id.rev)
-        updateRoom(id,uid!!,rev)
-    }
+
+
     private fun saveMessageToDataBase(message: String, id: String, uid: String, rev: RecyclerView) {
         val toDocsRef = db.collection("users").document("$uid")
         val fromDocsRef = db.collection("users").document("$id")
@@ -159,7 +155,7 @@ class MessageActivity : AppCompatActivity() {
                 makeChipGroupInVisible()
             }
             rev.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-            rev.scrollToPosition(adapter.itemCount-1)
+            rev.smoothScrollToPosition(adapter.itemCount-1)
         })
     }
     private fun makeChipGroupVisible() {
